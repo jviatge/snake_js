@@ -51,6 +51,36 @@
                         player_1.style.top = -40 + "px";
                     }
             }
+            if(key == 100){
+
+                let position_style =  player_1.style.right;
+                let position = parseFloat(position_style);
+
+                    if(Number.isInteger(position)){
+        
+                        let ok = position - 40;
+                        console.log(ok);
+        
+                        player_1.style.right = ok + "px";
+                    } else {
+                        player_1.style.right = -40 + "px";
+                    }
+                }
+            if(key == 113){
+
+                let position_style =  player_1.style.right;
+                let position = parseFloat(position_style);
+
+                    if(Number.isInteger(position)){
+        
+                        let ok = position + 40;
+                        console.log(ok);
+        
+                        player_1.style.right = ok + "px";
+                    } else {
+                        player_1.style.right = 40 + "px";
+                    }
+            }
         });
  
         
