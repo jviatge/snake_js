@@ -1,6 +1,6 @@
 .frame_game{
-    width: 800px;
-    height: 800px;
+    width: 760px;
+    height: 760px;
     border: 1px solid black;
 
     display: flex;
@@ -12,13 +12,31 @@
 }
 
 #player_1{
+    z-index: 2;
     height: 40px;
     width: 40px;
     background-color: black;
     position: relative;
+    top: 0px;
+    right: 0px;
 }
 
-@keyframes fade{
+#bloc_1{
+    z-index: 1;
+    /*float: unset;*/
+    display: none;
+    top: 0px;
+    right: 0px;
+}
+
+.bloc{
+    height: 40px;
+    width: 40px;
+    background-color: rgb(134, 134, 134);
+    position: relative;  
+}
+
+/* @keyframes fade{
     from{
         opacity: 0;
     }
@@ -31,4 +49,4 @@
     animation-name:fade;
     animation-duration: 0.7s;
     animation-fill-mode: forwards;
-}
+} */
