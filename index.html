@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Mini jeux</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel='stylesheet' type='text/css' media='screen' href='style.css'>
+</head>
+<body>
+    <div class="frame_game">
+        <div id="player_1"></div>
+
+    </div>
+    <script>
+        document.addEventListener('keypress', function(event){
+
+            console.log(event.which, String.fromCharCode(event.which));
+            
+            let key = event.which;
+            let player_1 = document.getElementById("player_1");
+
+            if(key == 115){
+
+                let position_style =  player_1.style.top;
+                let position = parseFloat(position_style);
+
+                    if(Number.isInteger(position)){
+        
+                        let ok = position + 40;
+                        console.log(ok);
+        
+                        player_1.style.top = ok + "px";
+                    } else {
+                        player_1.style.top = 40 + "px";
+                    }
+            }
+                
+            if(key == 122){
+
+                let position_style =  player_1.style.top;
+                let position = parseFloat(position_style);
+
+                    if(Number.isInteger(position)){
+        
+                        let ok = position - 40;
+                        console.log(ok);
+        
+                        player_1.style.top = ok + "px";
+                    } else {
+                        player_1.style.top = -40 + "px";
+                    }
+            }
+        });
+ 
+        
+
+        // function move_down() {
+		// 			if (document.body.scrollTop > 600 || document.documentElement.scrollTop > 600) {
+		// 				document.getElementById("player_1").style.bottom = "40px";
+		// 			} else { 
+                        
+        //             }
+        //         }
+    </script>
+</body>
+</html>

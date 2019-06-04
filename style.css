@@ -1,0 +1,34 @@
+.frame_game{
+    width: 800px;
+    height: 800px;
+    border: 1px solid black;
+
+    display: flex;
+    /* justify-content: center; */
+    align-items: center;
+    
+    margin: auto;
+    /* background-color: yellow; */
+}
+
+#player_1{
+    height: 40px;
+    width: 40px;
+    background-color: black;
+    position: relative;
+}
+
+@keyframes fade{
+    from{
+        opacity: 0;
+    }
+    to{
+        opacity: 1;
+    }
+}
+
+.fade_anim{
+    animation-name:fade;
+    animation-duration: 0.7s;
+    animation-fill-mode: forwards;
+}
