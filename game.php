@@ -7,12 +7,19 @@
     <title>Mini jeux</title>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
     <link rel='stylesheet' type='text/css' media='screen' href='style.css'>
+    <link rel='stylesheet' type='text/css' media='screen' href='anim.css'>
     <!-- <script src='oXHR.js'></script> -->
 </head>
 <body>
-    <script type="text/javascript">
-
+    <script>
+        (function () { 
+            var aName = "Barry";
+        })();
+    </script>
+<script type="text/javascript">
+(function () { 
     // --------------------------------
+        let score = 0;
         let move;
         let spawn;
         let lock = 0;
@@ -28,38 +35,37 @@
 
         let speed = 200;
         let xhr = new XMLHttpRequest();
-  
+ 
     // --------------------------------   
 
-            function bloc_spawn_y(){
-                let bloc = document.getElementById("bloc_1");
-            
-                if(bloc.style.display == "" ||bloc.style.display == "none" ){     
-                    bloc.style.display = "inline-block";
-                } 
+        function bloc_spawn_y(){
+            let bloc = document.getElementById("bloc_1");
+        
+            if(bloc.style.display == "" ||bloc.style.display == "none" ){     
+                bloc.style.display = "inline-block";
+            } 
 
 
-                let y = 40 * (Math.floor(Math.random() * (18 - 0 + 1)) + 0);
+            let y = 40 * (Math.floor(Math.random() * (18 - 0 + 1)) + 0);
 
-                bloc.style.top = y + "px";
+            bloc.style.top = y + "px";
 
-                return bloc.style.top;
-            }
+            return bloc.style.top;
+        }
 
-            function bloc_spawn_x(){
-                let bloc = document.getElementById("bloc_1");
-            
-                if(bloc.style.display == ""){               
-                    bloc.style.display = "inline-block";
-                } 
+        function bloc_spawn_x(){
+            let bloc = document.getElementById("bloc_1");
+        
+            if(bloc.style.display == ""){               
+                bloc.style.display = "inline-block";
+            } 
 
-                let x = 40 * (Math.floor(Math.random() * (18 - 0 + 1)) + 0);
-                //console.log(x);
+            let x = 40 * (Math.floor(Math.random() * (18 - 0 + 1)) + 0);
+ 
+            bloc.style.left = x + "px";
 
-                bloc.style.left = x + "px";
-
-                return bloc.style.left;
-            }
+            return bloc.style.left;
+        }
 
     // --------------------------------
 
@@ -78,25 +84,25 @@
                 player_1.style.top = 320 + "px";
                 }
                 return player_1.style.top;
-            }
-
-        function move_left(){
-        let player_1 = document.getElementById("player_1");
-        let position_style =  player_1.style.left;
-        let position = parseFloat(position_style);
-            if(Number.isInteger(position)){
-                let total_pos = position - 40;
-                if(total_pos < 0){
-                    player_1.style.left = "720px";  
-                } else {
-                    player_1.style.left = total_pos + "px";
-                }
-            } else {
-                player_1.style.left = 320 + "px";
-            }
-            return player_1.style.left;
         }
 
+        function move_left(){
+            let player_1 = document.getElementById("player_1");
+            let position_style =  player_1.style.left;
+            let position = parseFloat(position_style);
+                if(Number.isInteger(position)){
+                    let total_pos = position - 40;
+                    if(total_pos < 0){
+                        player_1.style.left = "720px";  
+                    } else {
+                        player_1.style.left = total_pos + "px";
+                    }
+                } else {
+                    player_1.style.left = 320 + "px";
+                }
+                return player_1.style.left;
+        }
+        
         function move_bottom(){
             let player_1 = document.getElementById("player_1");
             let position_style =  player_1.style.top;
@@ -113,8 +119,8 @@
                 }
 
             return player_1.style.top;
-            }
-
+        }
+        
         function move_right(){
             let player_1 = document.getElementById("player_1");
             let position_style =  player_1.style.left;
@@ -130,7 +136,7 @@
                     player_1.style.left = 400 + "px";
                 }
                 return player_1.style.left;
-            }
+        }
 
     // --------------------------------
 
@@ -149,9 +155,11 @@
             let x = bloc.style.top;
             let y = bloc.style.left;
 
+            player_1.style.transform = "rotate(180deg)";
+
             if(y_p == y && x_p == x){
-                heat_bloc();
-                
+                 anmi_croc();
+                 heat_bloc();
             }
         }
         
@@ -170,8 +178,11 @@
             let x = bloc.style.top;
             let y = bloc.style.left;
 
+            player_1.style.transform = "rotate(0deg)";
+
             if(y_p == y && x_p == x){             
-                heat_bloc();
+                 anmi_croc();
+                 heat_bloc();
             }
         }
         
@@ -190,8 +201,11 @@
             let x = bloc.style.top;
             let y = bloc.style.left;
 
+            player_1.style.transform = "rotate(90deg)";
+
             if(y_p == y && x_p == x){
-                heat_bloc();
+                 anmi_croc();
+                 heat_bloc();
             } 
         }
         
@@ -210,8 +224,11 @@
             let x = bloc.style.top;
             let y = bloc.style.left;
 
+            player_1.style.transform = "rotate(270deg)";
+
             if(y_p == y && x_p == x){
-                heat_bloc();
+                 anmi_croc();
+                 heat_bloc();
             }
         }
 
@@ -220,15 +237,18 @@
         
         function heat_bloc(){
             let bloc = document.getElementById("bloc_1");
-            let score = document.getElementById("score");
-            let total = score.textContent;
+ 
+            let score_html = document.getElementById("score");
 
-            total++;
-            if (total < 50) {
+            score++;
+
+            if (score < 50) {
                 speed = speed - 5;
             }
-            score.textContent = total;
+            score_html.textContent = score;
 
+ 
+ 
             bloc.style.display = "none";
             tail_snake();
         }    
@@ -255,7 +275,7 @@
                 if(block[c].style.display == ""){
                     block[c].style.display = "inline-block";
                 }
-                c++     
+                c++;
             }            
 
         }
@@ -294,14 +314,28 @@
             document.location.reload(true);
         }
     
-    // --------------------------------  
+    // --------------------------------
+ 
+         function anmi_croc(){
+             let miette = document.getElementsByClassName("croc");
+             miette[0].classList.add("frag1");
+             miette[1].classList.add("frag2");
+             miette[2].classList.add("frag3");
+            setTimeout(function(){
+               miette[0].classList.remove("frag1");
+               miette[1].classList.remove("frag2");
+               miette[2].classList.remove("frag3");
+                       }, 500);
+         }
+ 
+    // --------------------------------
 
         spawn = setInterval(bloc_spawn_y, 5200);
         spawn = setInterval(bloc_spawn_x, 5200);
 
         document.addEventListener('keypress', function(event){
                   
-            //console.log(event.which, String.fromCharCode(event.which));
+            console.log(event.which, String.fromCharCode(event.which));
             
             let key = event.which;
             switch(key){
@@ -309,8 +343,9 @@
                 case 115:
                     if(lock != 122){
                     lock = 115;
+
                     clearInterval(move);
-                    move = setInterval(regroup_bottom, speed);
+                    move = setInterval(regroup_bottom, speed);           
                 }
                 break;
 
@@ -347,13 +382,21 @@
             }
 
         });
-    </script>
+    })();
+</script>
 
     
     
     <div id="frame_game">
         <div class="bloc" id="bloc_1"></div>
-        <div id="player_1"></div>    
+        <div id="player_1">
+            <div class="croc" id="frag1">
+            </div>
+            <div class="croc" id="frag2">
+            </div>
+            <div class="croc" id="frag3">
+            </div>
+        </div>
     </div>
 
     <div class="score">
@@ -362,7 +405,7 @@
                 echo $_SESSION['user_name']; 
             } else {
                 echo "<p>Inconu</p><br>"; 
-                echo "<a href=\"accueil.php\">Connect/register</a>"; 
+                echo "<a href=\"index.php\">Connect/register</a>";
 
             }?></p><br>
         

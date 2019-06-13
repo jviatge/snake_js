@@ -30,13 +30,13 @@
             $error = "Wrong password !";
             }
     } else {
-        $error = "Error formulaire inconplet";
+        $error = "Error form not conplet";
     }
 
     if(isset($error)){
-        header('location: accueil.php?error='.$error);
+        header('location: index.php?error='.$error);
     } else {
-        header('location: accueil.php');
+        header('location: index.php');
     }
 
 ?>
