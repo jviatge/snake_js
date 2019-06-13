@@ -11,16 +11,13 @@
     <!-- <script src='oXHR.js'></script> -->
 </head>
 <body>
-    <script>
-        (function () { 
-            var aName = "Barry";
-        })();
-    </script>
 <script type="text/javascript">
 (function () { 
     // --------------------------------
         let score = 0;
         let move;
+        let point = 0;
+        
         let spawn;
         let lock = 0;
 
@@ -44,26 +41,22 @@
             if(bloc.style.display == "" ||bloc.style.display == "none" ){     
                 bloc.style.display = "inline-block";
             } 
-
-
             let y = 40 * (Math.floor(Math.random() * (18 - 0 + 1)) + 0);
-
             bloc.style.top = y + "px";
-
+            point = 0;
             return bloc.style.top;
         }
 
         function bloc_spawn_x(){
             let bloc = document.getElementById("bloc_1");
         
-            if(bloc.style.display == ""){               
+            if(bloc.style.display == "" ||bloc.style.display == "none"){               
                 bloc.style.display = "inline-block";
             } 
-
             let x = 40 * (Math.floor(Math.random() * (18 - 0 + 1)) + 0);
  
             bloc.style.left = x + "px";
-
+            point = 0;
             return bloc.style.left;
         }
 
@@ -157,9 +150,10 @@
 
             player_1.style.transform = "rotate(180deg)";
 
-            if(y_p == y && x_p == x){
+            if(y_p == y && x_p == x && point == 0){
                  anmi_croc();
                  heat_bloc();
+                 point = 1;
             }
         }
         
@@ -180,9 +174,10 @@
 
             player_1.style.transform = "rotate(0deg)";
 
-            if(y_p == y && x_p == x){             
+            if(y_p == y && x_p == x && point == 0){             
                  anmi_croc();
                  heat_bloc();
+                 point = 1;
             }
         }
         
@@ -203,9 +198,10 @@
 
             player_1.style.transform = "rotate(90deg)";
 
-            if(y_p == y && x_p == x){
+            if(y_p == y && x_p == x && point == 0){
                  anmi_croc();
                  heat_bloc();
+                 point = 1;
             } 
         }
         
@@ -226,31 +222,28 @@
 
             player_1.style.transform = "rotate(270deg)";
 
-            if(y_p == y && x_p == x){
+            if(y_p == y && x_p == x && point == 0){
                  anmi_croc();
                  heat_bloc();
+                 point = 1;
             }
         }
-
 
     // --------------------------------       
         
         function heat_bloc(){
-            let bloc = document.getElementById("bloc_1");
- 
-            let score_html = document.getElementById("score");
+        
+                let bloc = document.getElementById("bloc_1");
 
-            score++;
-
-            if (score < 50) {
-                speed = speed - 5;
-            }
-            score_html.textContent = score;
-
- 
- 
-            bloc.style.display = "none";
-            tail_snake();
+                let score_html = document.getElementById("score");
+                score++;
+                if (score < 50) {
+                    speed = speed - 5;
+                }
+                score_html.textContent = score;
+                
+                bloc.style.display = "none";
+                tail_snake();           
         }    
 
         function follow_tail(){
@@ -316,80 +309,78 @@
     
     // --------------------------------
  
-         function anmi_croc(){
-             let miette = document.getElementsByClassName("croc");
-             miette[0].classList.add("frag1");
-             miette[1].classList.add("frag2");
-             miette[2].classList.add("frag3");
-            setTimeout(function(){
-               miette[0].classList.remove("frag1");
-               miette[1].classList.remove("frag2");
-               miette[2].classList.remove("frag3");
-                       }, 500);
-         }
+        function anmi_croc(){
+            let miette = document.getElementsByClassName("croc");
+            miette[0].classList.add("frag1");
+            miette[1].classList.add("frag2");
+            miette[2].classList.add("frag3");
+        setTimeout(function(){
+            miette[0].classList.remove("frag1");
+            miette[1].classList.remove("frag2");
+            miette[2].classList.remove("frag3");
+                    }, 500);
+        }
  
     // --------------------------------
 
         spawn = setInterval(bloc_spawn_y, 5200);
         spawn = setInterval(bloc_spawn_x, 5200);
-
+        
         document.addEventListener('keypress', function(event){
+                       
+            // console.log(event.which, String.fromCharCode(event.which));
                   
-            console.log(event.which, String.fromCharCode(event.which));
+            let key = event.which;       
             
-            let key = event.which;
             switch(key){
-                
                 case 115:
-                    if(lock != 122){
-                    lock = 115;
-
+                    if(lock != 122 && lock != 115){
                     clearInterval(move);
-                    move = setInterval(regroup_bottom, speed);           
+                    move = setInterval(regroup_bottom, speed);
+                    setTimeout(function(){lock = 115;}, speed);     
                 }
                 break;
 
                 case 122:
-                    if(lock != 115){
-                    lock = 122;
+                    if(lock != 115 && lock != 122){
                     clearInterval(move);
                     move = setInterval(regroup_top, speed);
+                    setTimeout(function(){lock = 122;}, speed); 
                 }
                 break;
 
 
                 case 100:
-                    if(lock != 113){
-                    lock = 100;
+                    if(lock != 113 && lock != 100){
                     clearInterval(move);
                     move = setInterval(regroup_right, speed);
+                    setTimeout(function(){lock = 100;}, speed);
                 }
                 break;
 
 
                 case 113:
-                    if(lock != 100){
-                    lock = 113;
+                    if(lock != 100 && lock != 113){
                     clearInterval(move);
                     move = setInterval(regroup_left, speed);
+                    setTimeout(function(){lock = 113;}, speed);
                 }
                 break;
 
                 // case 32:
                 //     clearInterval(move);
                 // break
-            
             }
-
+            
         });
     })();
 </script>
 
-    
-    
-    <div id="frame_game">
-        <div class="bloc" id="bloc_1"></div>
-        <div id="player_1">
+
+
+<div id="frame_game">
+    <div class="bloc" id="bloc_1"></div>
+    <div id="player_1">
             <div class="croc" id="frag1">
             </div>
             <div class="croc" id="frag2">
@@ -415,9 +406,6 @@
                 echo '<p>YOUR BEST SCORE :</p>';
                 echo '<p>'.$_SESSION['user_score'].'</p>'; 
         }?>
-        
-        <!-- <input id="score" type="block" value="0"> -->
-        <!-- <input  -->
     </div>
     <p>V 1.01</p>
 </body>

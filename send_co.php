@@ -17,8 +17,9 @@ if (isset($_POST['co_username']) && isset($_POST['co_password'])){
             $_SESSION['user_id'] = $data['id'];
             $_SESSION['user_name'] = $data['username'];
             $_SESSION['user_score'] = $data['best_score'];
-//            header("HTTP/1.1 301 Moved Permanently");
-            header("location: http://www.julien-viatge.fr/snake/game.php");
+    
+            // header("location: http://www.julien-viatge.fr/snake/game.php");
+            header("location: game.php");
             exit();
         } else {
             $error = "Wordpass or username not valid";
@@ -29,8 +30,8 @@ if (isset($_POST['co_username']) && isset($_POST['co_password'])){
 } 
 
 if(isset($error)){
-//    header("HTTP/1.1 301 Moved Permanently");
-    header('location: http://www.julien-viatge.fr/snake/index.php?error='.$error);
+
+    header('location: index.php?error='.$error);
     exit();
 } 
 ?>
