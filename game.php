@@ -326,44 +326,77 @@
         spawn = setInterval(bloc_spawn_y, 5200);
         spawn = setInterval(bloc_spawn_x, 5200);
         
-        document.addEventListener('keypress', function(event){
+        document.addEventListener('keydown', function(event){
                        
             // console.log(event.which, String.fromCharCode(event.which));
                   
             let key = event.which;       
             
             switch(key){
-                case 115:
-                    if(lock != 122 && lock != 115){
+                /*touche S*/
+                case 83:
+                    if(lock != /*122*/ 90 && lock != 83){
                     clearInterval(move);
                     move = setInterval(regroup_bottom, speed);
-                    setTimeout(function(){lock = 115;}, speed);     
+                    setTimeout(function(){lock = 83;}, speed);     
+                }
+                break;
+                /*touche down*/
+                case 40:
+                    if(lock != 38 && lock != 40){
+                    clearInterval(move);
+                    move = setInterval(regroup_bottom, speed);
+                    setTimeout(function(){lock = 40;}, speed);     
                 }
                 break;
 
-                case 122:
-                    if(lock != 115 && lock != 122){
+                /*touche Z*/
+                case 90:
+                    if(lock != 83 && lock != 90){
                     clearInterval(move);
                     move = setInterval(regroup_top, speed);
-                    setTimeout(function(){lock = 122;}, speed); 
+                    setTimeout(function(){lock = 90;}, speed); 
+                }
+                break;
+                /*touche Up*/
+                case 38:
+                    if(lock != 40 && lock != 38){
+                    clearInterval(move);
+                    move = setInterval(regroup_top, speed);
+                    setTimeout(function(){lock = 38;}, speed); 
                 }
                 break;
 
-
-                case 100:
-                    if(lock != 113 && lock != 100){
+                /*touche D*/
+                case 68:
+                    if(lock != 81 && lock != 68){
                     clearInterval(move);
                     move = setInterval(regroup_right, speed);
-                    setTimeout(function(){lock = 100;}, speed);
+                    setTimeout(function(){lock = 68;}, speed);
                 }
                 break;
-
-
-                case 113:
-                    if(lock != 100 && lock != 113){
+                /*touche Right*/
+                case 39:
+                    if(lock != 37 && lock != 39){
+                    clearInterval(move);
+                    move = setInterval(regroup_right, speed);
+                    setTimeout(function(){lock = 39;}, speed);
+                }
+                break;
+                /*touche Q*/
+                case 81:
+                    if(lock != 68 && lock != 81){
                     clearInterval(move);
                     move = setInterval(regroup_left, speed);
-                    setTimeout(function(){lock = 113;}, speed);
+                    setTimeout(function(){lock = 81;}, speed);
+                }
+                break;
+                /*touche Left*/
+                case 37:
+                    if(lock != 39 && lock != 37){
+                    clearInterval(move);
+                    move = setInterval(regroup_left, speed);
+                    setTimeout(function(){lock = 37;}, speed);
                 }
                 break;
 
@@ -407,6 +440,6 @@
                 echo '<p>'.$_SESSION['user_score'].'</p>'; 
         }?>
     </div>
-    <p>V 1.01</p>
+    <p>V 1.02</p>
 </body>
 </html>
