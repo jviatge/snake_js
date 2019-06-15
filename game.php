@@ -32,6 +32,9 @@
 
         let speed = 200;
         let xhr = new XMLHttpRequest();
+
+        let y = 0;
+        let x = 0;
  
     // --------------------------------   
 
@@ -41,7 +44,7 @@
             if(bloc.style.display == "" ||bloc.style.display == "none" ){     
                 bloc.style.display = "inline-block";
             } 
-            let y = 40 * (Math.floor(Math.random() * (18 - 0 + 1)) + 0);
+            y = 40 * (Math.floor(Math.random() * (18 - 0 + 1)) + 0);
             bloc.style.top = y + "px";
             point = 0;
             return bloc.style.top;
@@ -53,7 +56,7 @@
             if(bloc.style.display == "" ||bloc.style.display == "none"){               
                 bloc.style.display = "inline-block";
             } 
-            let x = 40 * (Math.floor(Math.random() * (18 - 0 + 1)) + 0);
+            x = 40 * (Math.floor(Math.random() * (18 - 0 + 1)) + 0);
  
             bloc.style.left = x + "px";
             point = 0;
@@ -236,6 +239,7 @@
                 let bloc = document.getElementById("bloc_1");
 
                 let score_html = document.getElementById("score");
+                anim_score_pop();
                 score++;
                 if (score < 50) {
                     speed = speed - 5;
@@ -243,6 +247,7 @@
                 score_html.textContent = score;
                 
                 bloc.style.display = "none";
+                
                 tail_snake();           
         }    
 
@@ -320,7 +325,19 @@
             miette[2].classList.remove("frag3");
                     }, 500);
         }
- 
+        function anim_score_pop(){
+            let pop = document.getElementById("addScorePop");
+            pop.classList.add("addScorePop");
+            if(pop.style.display == "" ||pop.style.display == "none" ){     
+                pop.style.display = "inline-block";
+            }
+            pop.style.top = y + "px";
+            pop.style.left = x + "px";
+
+            setTimeout(function(){
+            pop.classList.remove("addScorePop");
+            }, 1000);
+        }
     // --------------------------------
 
         spawn = setInterval(bloc_spawn_y, 5200);
@@ -413,6 +430,7 @@
 
 <div id="frame_game">
     <div class="bloc" id="bloc_1"></div>
+    <div id="addScorePop" class="">+1</div>
     <div id="player_1">
             <div class="croc" id="frag1">
             </div>
@@ -440,6 +458,6 @@
                 echo '<p>'.$_SESSION['user_score'].'</p>'; 
         }?>
     </div>
-    <p>V 1.02</p>
+    <p>V 1.01</p>
 </body>
 </html>
