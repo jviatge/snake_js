@@ -12,12 +12,15 @@
 
 
 body{
+    margin: 0;
     font-family: 'kuroneko', Arial, sans-serif;
     background-color: #74541aa6;
     color: rgb(250, 248, 235);
+    overflow:hidden;
 }
 
 .container_master{
+    height: 100%;
     margin-top: 20px;
     display: flex;
     justify-content: space-around;
@@ -93,9 +96,6 @@ body{
 
     background: url("image/corps.png") no-repeat;
     background-position: center;
-    /*background-size: cover;*/
-
-    /*background-color: black;*/
     z-index: 1;  
     position: absolute;  
 }
@@ -129,14 +129,10 @@ body{
     justify-content: space-around;
 }
 
-.register{
-    
-    /* position: absolute;
-    float: left;
-    top: 0px; */
-    
-    height: 300px;
-    width: 400px;
+.register{ 
+    height: 350px;
+    width: 360px;
+    padding: 20px;
 
     font-size: 1.4em; 
 
@@ -145,6 +141,16 @@ body{
     justify-content: space-around;
     align-items: flex-end;
 
+}
+
+.register_form{
+    height: 900px;
+    width: 400px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: flex-end;
 }
 
 .button{
@@ -183,16 +189,7 @@ body{
     align-items: center;
     justify-content: center;
 
-    /* right: 0px;
-    top: 0px;
-    height: 300px;
-    left: 100px; */
     font-size: 1.4em; 
-
-    /* display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    align-items: flex-end; */
 }
 
 .user{

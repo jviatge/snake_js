@@ -14,9 +14,13 @@
 <script type="text/javascript">
 (function () { 
     // --------------------------------
+        let token;
         let score = 0;
         let move;
         let point = 0;
+        let key = new Array();  
+        let verif;
+        let check = 1;
         
         let spawn;
         let lock = 0;
@@ -39,6 +43,7 @@
     // --------------------------------   
 
         function bloc_spawn_y(){
+            token = token + Math.floor(Math.random() * Math.floor());
             let bloc = document.getElementById("bloc_1");
         
             if(bloc.style.display == "" ||bloc.style.display == "none" ){     
@@ -158,6 +163,8 @@
                  heat_bloc();
                  point = 1;
             }
+            lock = "x";
+            check = 1;
         }
         
         function regroup_top(){  
@@ -182,6 +189,8 @@
                  heat_bloc();
                  point = 1;
             }
+            lock = "x";
+            check = 1;
         }
         
         function regroup_right(){  
@@ -206,6 +215,8 @@
                  heat_bloc();
                  point = 1;
             } 
+            lock = "y"
+            check = 1;
         }
         
         function regroup_left(){  
@@ -230,6 +241,8 @@
                  heat_bloc();
                  point = 1;
             }
+            lock = "y"
+            check = 1;
         }
 
     // --------------------------------       
@@ -288,17 +301,17 @@
         }
 
         function end_game(){
+            token = token + Math.floor(Math.random() * Math.floor());
+
             let score = document.getElementById("score");
             let end_score = score.textContent;
-
-            
-            console.log(end_score);
+        
             speed = 200;
             clearInterval(move);
             clearInterval(spawn);
             
             xhr.onreadystatechange = function() {
-                console.log(this);
+                
                 if (this.readyState == 4 && this.status == 404){
                     alert('erreur 404 :/');
                 }
@@ -306,7 +319,12 @@
 
             xhr.open("POST", "score.php", true);
             xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-            xhr.send("score=" + end_score);
+
+            let compare = token;
+
+            if(compare == token){
+                xhr.send("score=" + end_score);
+            }
 
             alert("FIN DU GAME score: " + end_score);
             document.location.reload(true);
@@ -342,87 +360,104 @@
 
         spawn = setInterval(bloc_spawn_y, 5200);
         spawn = setInterval(bloc_spawn_x, 5200);
-        
-        document.addEventListener('keydown', function(event){
-                       
-            // console.log(event.which, String.fromCharCode(event.which));
-                  
-            let key = event.which;       
-            
-            switch(key){
-                /*touche S*/
-                case 83:
-                    if(lock != /*122*/ 90 && lock != 83){
-                    clearInterval(move);
-                    move = setInterval(regroup_bottom, speed);
-                    setTimeout(function(){lock = 83;}, speed);     
-                }
-                break;
-                /*touche down*/
-                case 40:
-                    if(lock != 38 && lock != 40){
-                    clearInterval(move);
-                    move = setInterval(regroup_bottom, speed);
-                    setTimeout(function(){lock = 40;}, speed);     
-                }
-                break;
 
-                /*touche Z*/
-                case 90:
-                    if(lock != 83 && lock != 90){
-                    clearInterval(move);
-                    move = setInterval(regroup_top, speed);
-                    setTimeout(function(){lock = 90;}, speed); 
-                }
-                break;
-                /*touche Up*/
-                case 38:
-                    if(lock != 40 && lock != 38){
-                    clearInterval(move);
-                    move = setInterval(regroup_top, speed);
-                    setTimeout(function(){lock = 38;}, speed); 
-                }
-                break;
+       
+            document.addEventListener('keydown', function(event){
+                if (check == 1){
+                    check = 0; 
+                    
+                    let ev = event.which;
 
-                /*touche D*/
-                case 68:
-                    if(lock != 81 && lock != 68){
-                    clearInterval(move);
-                    move = setInterval(regroup_right, speed);
-                    setTimeout(function(){lock = 68;}, speed);
-                }
-                break;
-                /*touche Right*/
-                case 39:
-                    if(lock != 37 && lock != 39){
-                    clearInterval(move);
-                    move = setInterval(regroup_right, speed);
-                    setTimeout(function(){lock = 39;}, speed);
-                }
-                break;
-                /*touche Q*/
-                case 81:
-                    if(lock != 68 && lock != 81){
-                    clearInterval(move);
-                    move = setInterval(regroup_left, speed);
-                    setTimeout(function(){lock = 81;}, speed);
-                }
-                break;
-                /*touche Left*/
-                case 37:
-                    if(lock != 39 && lock != 37){
-                    clearInterval(move);
-                    move = setInterval(regroup_left, speed);
-                    setTimeout(function(){lock = 37;}, speed);
-                }
-                break;
+                    // seulement les touches concerners
+                    if (ev== 83 || 
+                        ev ==40 || 
+                        ev ==90 || 
+                        ev ==38 || 
+                        ev ==68 || 
+                        ev ==39 || 
+                        ev ==81 || 
+                        ev ==37) {       
+                        
+                        if(verif != ev){
+                        key.push(ev);  
+                                for (let i = 0; i < key.length; i++) {      
+                                    turn = 0;
+                                    switch(key[i]){
 
-                // case 32:
-                //     clearInterval(move);
-                // break
-            }
-            
-        });
+                                    /*touche S*/
+                                    case 83:    
+                                        if(lock != "x"){
+                                        clearInterval(move);
+                                        move = setInterval(regroup_bottom, speed); 
+                                        verif = key[i]; ;
+                                    }
+                                    break;
+                                    /*touche down*/
+                                    case 40:
+                                        if(lock != "x"){
+                                        clearInterval(move);
+                                        move = setInterval(regroup_bottom, speed);  
+                                        verif = key[i];                 
+                                    }
+                                    break;
+
+                                    /*touche Z*/
+                                    case 90:
+                                        if(lock != "x"){
+                                        clearInterval(move);
+                                        move = setInterval(regroup_top, speed);
+                                        verif = key[i]; 
+                                    }
+                                    break;
+                                    /*touche Up*/
+                                    case 38:
+                                        if(lock != "x"){
+                                        clearInterval(move);
+                                        move = setInterval(regroup_top, speed);
+                                        verif = key[i]; 
+                                    }
+                                    break;
+
+                                    /*touche D*/
+                                    case 68:
+                                        if(lock != "y"){
+                                        clearInterval(move);
+                                        move = setInterval(regroup_right, speed);
+                                        verif = key[i]; 
+                                    }
+                                    break;
+                                    /*touche Right*/
+                                    case 39:
+                                        if(lock != "y"){
+                                        clearInterval(move);
+                                        move = setInterval(regroup_right, speed);
+                                        verif = key[i]; 
+                                    }
+                                    break;
+
+                                    /*touche Q*/
+                                    case 81:
+                                        if(lock != "y"){
+                                        clearInterval(move);
+                                        move = setInterval(regroup_left, speed);
+                                        verif = key[i]; 
+                                    }
+                                    break;
+                                    /*touche Left*/
+                                    case 37:
+                                        if(lock != "y"){
+                                        clearInterval(move);
+                                        move = setInterval(regroup_left, speed);
+                                        verif = key[i]; 
+                                    }
+                                    break;                                 
+                                }
+                                }
+                                key.splice(0, key.length); 
+                            }
+                    }
+                }             
+            });
     })();
 </script>
 
@@ -458,6 +493,6 @@
                 echo '<p>'.$_SESSION['user_score'].'</p>'; 
         }?>
     </div>
-    <p>V 1.01</p>
+    <p>V 1.03</p>
 </body>
 </html>

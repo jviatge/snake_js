@@ -14,8 +14,10 @@
 </head>
 <body>
 <div class="container_master">
-    <form class="register" action="send_ins.php" method="POST">
-                <h2>Regist you !</h2>
+    <div class="register">
+    <h2>Regist you !</h2>
+        <form class="register_form" action="send_ins.php" method="POST">
+                
                 <label for="ins_username">
                     Username :
                     <input class="case" type="text" name="ins_username" id="ins_username" required>
@@ -31,6 +33,9 @@
                 </label>
                 <input class="button" type="submit" value="register">
         </form>
+        <a href="game.php">Ignore and just play !</a>    
+        <p>V 1.03</p>
+    </div>
     
     <div id="frame_game">
         <div class="container_accueil">
@@ -69,8 +74,7 @@
 </div>
     
 
-<a href="game.php">Ignore and just play !</a>    
-<p>V 1.01</p>
+
 
     
 </body>
