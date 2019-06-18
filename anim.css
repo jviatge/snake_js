@@ -1,3 +1,9 @@
+@font-face 
+{
+    font-family: 'pixel';
+    src: url('police/pixel/LLPIXEL3.ttf')format('truetype');
+}
+
 @keyframes drawArc {
     0% { transform: rotate(0deg) translateX(0px) rotate(0deg) ;
          opacity: 0;}
@@ -24,7 +30,7 @@
 }
 @keyframes AnimScorePop {
     0% {transform: scale(1,1);opacity: 0;}
-    99%{transform: scale(4,4);opacity: 1;}
+    80%{transform: scale(4,4);opacity: 1;}
     100% {transform: scale(4,4);opacity:0;}
 }
 .croc{
@@ -55,7 +61,8 @@
     animation: AnimScorePop 1s ease-in-out;
 }
 #addScorePop{
-    color: #000000;
+    font-family: 'pixel', Arial, sans-serif;
+    color: #eeff00;
     position: absolute;
     z-index: 2;
     opacity: 0;

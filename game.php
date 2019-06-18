@@ -164,7 +164,7 @@
                  point = 1;
             }
             lock = "x";
-            check = 1;
+            // check = 1;
         }
         
         function regroup_top(){  
@@ -190,7 +190,7 @@
                  point = 1;
             }
             lock = "x";
-            check = 1;
+            // check = 1;
         }
         
         function regroup_right(){  
@@ -216,7 +216,7 @@
                  point = 1;
             } 
             lock = "y"
-            check = 1;
+            // check = 1;
         }
         
         function regroup_left(){  
@@ -242,7 +242,7 @@
                  point = 1;
             }
             lock = "y"
-            check = 1;
+            // check = 1;
         }
 
     // --------------------------------       
@@ -300,6 +300,20 @@
             frame.appendChild(longuer);
         }
 
+        function pause_game(){
+            let pause = document.getElementById("bloc_pause");
+            if(pause.style.display == "" ||pause.style.display == "none" ){ 
+                clearInterval(move);
+                let save = key.length;
+                console.log(key[save]);
+                check = 0;     
+                pause.style.display = "flex";
+            } else {
+                pause.style.display = "none";
+                check = 1; 
+            }
+        }
+
         function end_game(){
             token = token + Math.floor(Math.random() * Math.floor());
 
@@ -343,6 +357,7 @@
             miette[2].classList.remove("frag3");
                     }, 500);
         }
+
         function anim_score_pop(){
             let pop = document.getElementById("addScorePop");
             pop.classList.add("addScorePop");
@@ -361,14 +376,17 @@
         spawn = setInterval(bloc_spawn_y, 5200);
         spawn = setInterval(bloc_spawn_x, 5200);
 
-       
             document.addEventListener('keydown', function(event){
-                if (check == 1){
-                    check = 0; 
-                    
-                    let ev = event.which;
+                let ev = event.which;
 
-                    // seulement les touches concerners
+                // echap pause
+                if (ev ==27){
+                        pause_game();
+                    } else {
+                    if (check == 1 || document.getElementById("bloc_pause").style.display == "none"){
+                        check = 1; 
+
+                    // seulement les touches concerners par le deplacement
                     if (ev== 83 || 
                         ev ==40 || 
                         ev ==90 || 
@@ -453,29 +471,20 @@
                                     break;                                 
                                 }
                                 }
-                                key.splice(0, key.length); 
+                                // key.splice(0, key.length); 
                             }
                     }
+                }
                 }             
             });
     })();
+    function resume_on_game(){
+        let pause = document.getElementById("bloc_pause");
+        pause.style.display = "none";
+    }
 </script>
 
-
-
-<div id="frame_game">
-    <div class="bloc" id="bloc_1"></div>
-    <div id="addScorePop" class="">+1</div>
-    <div id="player_1">
-            <div class="croc" id="frag1">
-            </div>
-            <div class="croc" id="frag2">
-            </div>
-            <div class="croc" id="frag3">
-            </div>
-        </div>
-    </div>
-
+<div class="container_master">
     <div class="score">
         <p><?php 
             if(isset($_SESSION['user_name'])){
@@ -492,7 +501,34 @@
                 echo '<p>YOUR BEST SCORE :</p>';
                 echo '<p>'.$_SESSION['user_score'].'</p>'; 
         }?>
+        <p>V 1.03</p>
     </div>
-    <p>V 1.03</p>
+    <div id="frame_game">
+        <div class="bloc" id="bloc_1"></div>
+        <div id="addScorePop" class="">+1</div>
+        <div id="player_1">
+        <div class="croc" id="frag1">
+            </div>
+            <div class="croc" id="frag2">
+                </div>
+                <div class="croc" id="frag3">
+            </div>
+        </div>
+        <div id="bloc_pause">
+            <h2>PAUSE</h2>
+            
+            <a href="index.php"><button class="button_menu">Menu</button></a>
+            <button class="button_menu" onclick="resume_on_game()" href="">Resume</button>
+        </div>
+    </div>
+    <div>
+    </div>
+</div>
+<script>
+    
+</script>
+    
+
+    
 </body>
 </html>
