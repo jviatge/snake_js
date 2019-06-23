@@ -218,6 +218,17 @@ body{
     background-color: rgba(0, 0, 0, 0.719);
 }
 
+#bloc_end{
+    display: none;
+    z-index: 2;
+    height: 100%;
+    width: 100%;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.719);
+}
+
 .button_menu{
     margin-top: 20px;
     /* display: none; */

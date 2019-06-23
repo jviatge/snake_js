@@ -11,9 +11,56 @@
     <!-- <script src='oXHR.js'></script> -->
 </head>
 <body>
+<div class="container_master">
+    <div class="score">
+        <p><?php 
+            if(isset($_SESSION['user_name'])){
+                echo $_SESSION['user_name']; 
+            } else {
+                echo "<p>Inconu</p><br>"; 
+                echo "<a href=\"index.php\">Connect/register</a>";
+
+            }?></p><br>
+        
+        <p>SCORE :</p>
+        <span id="score">0</span>
+        <?php if(isset($_SESSION['user_name'])){
+                echo '<p>YOUR BEST SCORE :</p>';
+                echo '<p>'.$_SESSION['user_score'].'</p>'; 
+        }?>
+        <p>V 1.03</p>
+    </div>
+    <div id="frame_game">
+        <div class="bloc" id="bloc_1"></div>
+        <div id="addScorePop" class="">+1</div>
+        <div id="player_1">
+        <div class="croc" id="frag1">
+            </div>
+            <div class="croc" id="frag2">
+                </div>
+                <div class="croc" id="frag3">
+            </div>
+        </div>
+        <div id="bloc_pause">
+            <h2>PAUSE</h2>
+            
+            <a href="index.php"><button class="button_menu">Menu</button></a>
+            <button id="resume" class="button_menu" href="">Resume</button>
+        </div>
+        <div id="bloc_end">
+            <h2>FIN DU GAME'S !</h2>
+            <p>SCORE: <span id="score_end">0</span></p>
+            <a href="index.php"><button class="button_menu">Menu</button></a>
+            <button class="button_menu" id="reload_game" href="">Retry</button>
+        </div>
+    </div>
+    <div>
+    </div>
+</div>
 <script type="text/javascript">
 (function () { 
     // --------------------------------
+        let ev;
         let token;
         let score = 0;
         let move;
@@ -21,6 +68,10 @@
         let key = new Array();  
         let verif;
         let check = 1;
+        let open = 1;
+        let save;
+        let check_pause; 
+        let click_resume; 
         
         let spawn;
         let lock = 0;
@@ -39,33 +90,36 @@
 
         let y = 0;
         let x = 0;
+
+        let resume = document.getElementById("resume");
+        let retry = document.getElementById("reload_game");
  
     // --------------------------------   
 
         function bloc_spawn_y(){
-            token = token + Math.floor(Math.random() * Math.floor());
-            let bloc = document.getElementById("bloc_1");
-        
-            if(bloc.style.display == "" ||bloc.style.display == "none" ){     
-                bloc.style.display = "inline-block";
-            } 
-            y = 40 * (Math.floor(Math.random() * (18 - 0 + 1)) + 0);
-            bloc.style.top = y + "px";
-            point = 0;
-            return bloc.style.top;
+                token = token + Math.floor(Math.random() * Math.floor());
+                let bloc = document.getElementById("bloc_1");
+            
+                if(bloc.style.display == "" ||bloc.style.display == "none" && check_pause != true){     
+                    bloc.style.display = "inline-block";
+                } 
+                y = 40 * (Math.floor(Math.random() * (18 - 0 + 1)) + 0);
+                bloc.style.top = y + "px";
+                point = 0;
+                return bloc.style.top;
         }
 
         function bloc_spawn_x(){
-            let bloc = document.getElementById("bloc_1");
-        
-            if(bloc.style.display == "" ||bloc.style.display == "none"){               
-                bloc.style.display = "inline-block";
-            } 
-            x = 40 * (Math.floor(Math.random() * (18 - 0 + 1)) + 0);
- 
-            bloc.style.left = x + "px";
-            point = 0;
-            return bloc.style.left;
+                let bloc = document.getElementById("bloc_1");
+            
+                if(bloc.style.display == "" ||bloc.style.display == "none" && check_pause != true){               
+                    bloc.style.display = "inline-block";
+                } 
+                x = 40 * (Math.floor(Math.random() * (18 - 0 + 1)) + 0);
+    
+                bloc.style.left = x + "px";
+                point = 0;
+                return bloc.style.left;
         }
 
     // --------------------------------
@@ -302,14 +356,21 @@
 
         function pause_game(){
             let pause = document.getElementById("bloc_pause");
+            let bloc = document.getElementById("bloc_1");
+
             if(pause.style.display == "" ||pause.style.display == "none" ){ 
+                bloc.style.display = "none";
                 clearInterval(move);
-                let save = key.length;
-                console.log(key[save]);
-                check = 0;     
+                save = verif;
+                check = 0; 
+                check_pause = true;    
                 pause.style.display = "flex";
             } else {
                 pause.style.display = "none";
+                bloc.style.display = "inline-block";
+                check_pause = false;   
+                lock = 0;
+                verif = 0;
                 check = 1; 
             }
         }
@@ -317,31 +378,34 @@
         function end_game(){
             token = token + Math.floor(Math.random() * Math.floor());
 
-            let score = document.getElementById("score");
-            let end_score = score.textContent;
+            let end_score = document.getElementById("score_end");
+            end_score.textContent = score;
+            let end = document.getElementById("bloc_end");
         
             speed = 200;
             clearInterval(move);
             clearInterval(spawn);
             
-            xhr.onreadystatechange = function() {
-                
-                if (this.readyState == 4 && this.status == 404){
-                    alert('erreur 404 :/');
-                }
-            };
+                xhr.onreadystatechange = function() {
+                    
+                    if (this.readyState == 4 && this.status == 404){
+                        alert('erreur 404 :/');
+                    }
+                };
 
-            xhr.open("POST", "score.php", true);
-            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+                xhr.open("POST", "score.php", true);
+                xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
 
             let compare = token;
 
             if(compare == token){
-                xhr.send("score=" + end_score);
+                xhr.send("score=" + score);
             }
 
-            alert("FIN DU GAME score: " + end_score);
-            document.location.reload(true);
+            open = 0; 
+            end.style.display = "flex";
+           
+
         }
     
     // --------------------------------
@@ -376,27 +440,50 @@
         spawn = setInterval(bloc_spawn_y, 5200);
         spawn = setInterval(bloc_spawn_x, 5200);
 
-            document.addEventListener('keydown', function(event){
-                let ev = event.which;
+            document.addEventListener('keydown', function keypush(){
+                if(open == 1){
 
-                // echap pause
-                if (ev ==27){
-                        pause_game();
+                    if(click_resume != 1){
+                        ev = event.which;
+                        // echap pause
+                        if (ev ==27){
+                            pause_game();
+
+                            resume.addEventListener('click', function() {
+                                let pause = document.getElementById("bloc_pause");
+                                let bloc = document.getElementById("bloc_1");
+
+                                pause.style.display = "none";
+                                bloc.style.display = "inline-block";
+                                check_pause = false;   
+                                lock = 0;
+                                verif = 0;
+                                check = 1; 
+                                ev = save; 
+                                click_resume = 1;
+                                keypush();
+                            });
+                            ev = save; 
+                        }
                     } else {
+                        click_resume = 0;
+                    }
+
                     if (check == 1 || document.getElementById("bloc_pause").style.display == "none"){
                         check = 1; 
-
+                        
                     // seulement les touches concerners par le deplacement
-                    if (ev== 83 || 
+                    if (ev ==83 || 
                         ev ==40 || 
                         ev ==90 || 
                         ev ==38 || 
                         ev ==68 || 
                         ev ==39 || 
                         ev ==81 || 
-                        ev ==37) {       
+                        ev ==37){       
                         
                         if(verif != ev){
+                            
                         key.push(ev);  
                                 for (let i = 0; i < key.length; i++) {      
                                     turn = 0;
@@ -473,62 +560,14 @@
                                 }
                                 // key.splice(0, key.length); 
                             }
-                    }
+                        }
+                    }        
                 }
-                }             
             });
-    })();
-    function resume_on_game(){
-        let pause = document.getElementById("bloc_pause");
-        pause.style.display = "none";
-    }
+                retry.addEventListener('click', function() {
+                    document.location.reload(true);
+                });
+            })();
 </script>
-
-<div class="container_master">
-    <div class="score">
-        <p><?php 
-            if(isset($_SESSION['user_name'])){
-                echo $_SESSION['user_name']; 
-            } else {
-                echo "<p>Inconu</p><br>"; 
-                echo "<a href=\"index.php\">Connect/register</a>";
-
-            }?></p><br>
-        
-        <p>SCORE :</p>
-        <span id="score">0</span>
-        <?php if(isset($_SESSION['user_name'])){
-                echo '<p>YOUR BEST SCORE :</p>';
-                echo '<p>'.$_SESSION['user_score'].'</p>'; 
-        }?>
-        <p>V 1.03</p>
-    </div>
-    <div id="frame_game">
-        <div class="bloc" id="bloc_1"></div>
-        <div id="addScorePop" class="">+1</div>
-        <div id="player_1">
-        <div class="croc" id="frag1">
-            </div>
-            <div class="croc" id="frag2">
-                </div>
-                <div class="croc" id="frag3">
-            </div>
-        </div>
-        <div id="bloc_pause">
-            <h2>PAUSE</h2>
-            
-            <a href="index.php"><button class="button_menu">Menu</button></a>
-            <button class="button_menu" onclick="resume_on_game()" href="">Resume</button>
-        </div>
-    </div>
-    <div>
-    </div>
-</div>
-<script>
-    
-</script>
-    
-
-    
 </body>
 </html>
