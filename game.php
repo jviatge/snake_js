@@ -98,7 +98,6 @@
     // --------------------------------   
 
         function bloc_spawn(){
-                token = token + Math.floor(Math.random() * Math.floor());
                 let bloc = document.getElementById("bloc_1");
 
                 y = 40 * (Math.floor(Math.random() * (18 - 0 + 1)) + 0);
@@ -298,7 +297,7 @@
     // --------------------------------       
         
         function heat_bloc(){
-        
+                clearInterval(spawn);
                 let bloc = document.getElementById("bloc_1");
 
                 let score_html = document.getElementById("score");
@@ -308,18 +307,17 @@
                 score++;
                 
                 if (score < 50) {
-                    speed = speed - 5;
+                    speed = speed - 3;
                 }
                 score_html.textContent = score;
                 
                 tail_snake();
+                spawn = setInterval(bloc_spawn, 4000);
                   
                        
         }    
 
-        function follow_tail(){
-        
-        
+        function follow_tail(){     
             let player_1 = document.getElementById("player_1");
             let block = document.getElementsByClassName("block_2");
             let bloc = document.getElementById("bloc_1");
@@ -379,7 +377,6 @@
         }
 
         function end_game(){
-            token = token + Math.floor(Math.random() * Math.floor());
 
             let end_score = document.getElementById("score_end");
             end_score.textContent = score;
@@ -398,17 +395,10 @@
 
                 xhr.open("POST", "score.php", true);
                 xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-
-            let compare = token;
-
-            if(compare == token){
-                xhr.send("score=" + score);
-            }
+                xhr.send("score=" + score + "&token=" + token);
 
             open = 0; 
             end.style.display = "flex";
-           
-
         }
     
     // --------------------------------
@@ -440,9 +430,35 @@
         }
     // --------------------------------
 
-        bloc_spawn();
+        function token_safe(){
+           
+            token = (Math.floor (Math.random () * 999999 + 1000000));
+            xhr.onreadystatechange = function() {
+                    
+                    if (this.readyState == 4 && this.status == 404){
+                        alert('erreur 404 :/');
+                    }
+                };
+
+            xhr.open("POST", "token.php", true);
+            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+            xhr.send("token=" + token);
+        }
+
+    // --------------------------------
+        token_safe();
+        bloc_spawn(); 
+
+            // document.addEventListener('keydown', function keyspeed(){
+                
+            //     if(ev == 32){
+            //         console.log(event.which);
+            //         speed = speed - 100;
+            //     }
+            // });
 
             document.addEventListener('keydown', function keypush(){
+                
                 if(open == 1){
 
                     if(click_resume != 1){
@@ -570,6 +586,8 @@
                     document.location.reload(true);
                 });
             })();
+
+            
 </script>
 </body>
 </html>
