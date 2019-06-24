@@ -90,36 +90,31 @@
 
         let y = 0;
         let x = 0;
+        
 
-        let resume = document.getElementById("resume");
+        
         let retry = document.getElementById("reload_game");
- 
+        let resume = document.getElementById("resume");
     // --------------------------------   
 
-        function bloc_spawn_y(){
+        function bloc_spawn(){
                 token = token + Math.floor(Math.random() * Math.floor());
                 let bloc = document.getElementById("bloc_1");
-            
-                if(bloc.style.display == "" ||bloc.style.display == "none" && check_pause != true){     
-                    bloc.style.display = "inline-block";
-                } 
-                y = 40 * (Math.floor(Math.random() * (18 - 0 + 1)) + 0);
-                bloc.style.top = y + "px";
-                point = 0;
-                return bloc.style.top;
-        }
 
-        function bloc_spawn_x(){
-                let bloc = document.getElementById("bloc_1");
-            
-                if(bloc.style.display == "" ||bloc.style.display == "none" && check_pause != true){               
-                    bloc.style.display = "inline-block";
-                } 
+                y = 40 * (Math.floor(Math.random() * (18 - 0 + 1)) + 0);
                 x = 40 * (Math.floor(Math.random() * (18 - 0 + 1)) + 0);
-    
+
+                bloc.style.top = y + "px";
                 bloc.style.left = x + "px";
+                
+                bloc.style.top;
+                bloc.style.left;
+
+                if(bloc.style.display == "" || bloc.style.display == "none" && check_pause != true){     
+                    bloc.style.display = "inline-block";
+                }
                 point = 0;
-                return bloc.style.left;
+                
         }
 
     // --------------------------------
@@ -206,13 +201,14 @@
 
             tab_y.push(y_p);
             tab_x.push(x_p);
+            
 
             let x = bloc.style.top;
             let y = bloc.style.left;
 
             player_1.style.transform = "rotate(180deg)";
 
-            if(y_p == y && x_p == x && point == 0){
+            if(y_p == y && x_p == x){
                  anmi_croc();
                  heat_bloc();
                  point = 1;
@@ -238,7 +234,7 @@
 
             player_1.style.transform = "rotate(0deg)";
 
-            if(y_p == y && x_p == x && point == 0){             
+            if(y_p == y && x_p == x){             
                  anmi_croc();
                  heat_bloc();
                  point = 1;
@@ -264,7 +260,7 @@
 
             player_1.style.transform = "rotate(90deg)";
 
-            if(y_p == y && x_p == x && point == 0){
+            if(y_p == y && x_p == x){
                  anmi_croc();
                  heat_bloc();
                  point = 1;
@@ -290,7 +286,7 @@
 
             player_1.style.transform = "rotate(270deg)";
 
-            if(y_p == y && x_p == x && point == 0){
+            if(y_p == y && x_p == x){
                  anmi_croc();
                  heat_bloc();
                  point = 1;
@@ -307,15 +303,18 @@
 
                 let score_html = document.getElementById("score");
                 anim_score_pop();
+                bloc.style.display = "none";
+                bloc_spawn();
                 score++;
+                
                 if (score < 50) {
                     speed = speed - 5;
                 }
                 score_html.textContent = score;
                 
-                bloc.style.display = "none";
-                
-                tail_snake();           
+                tail_snake();
+                  
+                       
         }    
 
         function follow_tail(){
@@ -323,6 +322,7 @@
         
             let player_1 = document.getElementById("player_1");
             let block = document.getElementsByClassName("block_2");
+            let bloc = document.getElementById("bloc_1");
 
             y_p = player_1.style.left;
             x_p = player_1.style.top;
@@ -334,6 +334,9 @@
                 if(block[c].style.left == y_p && block[c].style.top == x_p){
                     end_game();
                 }
+                if(block[c].style.left == bloc.style.left && block[c].style.top == bloc.style.top){
+                    bloc_spawn();
+                }
                 block[c].style.left = tab_y[i];
                 block[c].style.top = tab_x[i];
 
@@ -341,7 +344,7 @@
                     block[c].style.display = "inline-block";
                 }
                 c++;
-            }            
+            }        
 
         }
 
@@ -437,8 +440,7 @@
         }
     // --------------------------------
 
-        spawn = setInterval(bloc_spawn_y, 5200);
-        spawn = setInterval(bloc_spawn_x, 5200);
+        bloc_spawn();
 
             document.addEventListener('keydown', function keypush(){
                 if(open == 1){
@@ -490,7 +492,7 @@
                                     switch(key[i]){
 
                                     /*touche S*/
-                                    case 83:    
+                                    case 83:
                                         if(lock != "x"){
                                         clearInterval(move);
                                         move = setInterval(regroup_bottom, speed); 
