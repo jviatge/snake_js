@@ -502,83 +502,81 @@
                         
                         if(verif != ev){
                             
-                        key.push(ev);  
-                                for (let i = 0; i < key.length; i++) {      
-                                    turn = 0;
-                                    switch(key[i]){
+                            key.push(ev);  
+                            
+                                    switch(ev){
 
-                                    /*touche S*/
-                                    case 83:
-                                        if(lock != "x"){
+                                    case 83:    
+                                        if(verif != 90 && lock != "x"){
+                                        verif = ev; 
                                         clearInterval(move);
                                         move = setInterval(regroup_bottom, speed); 
-                                        verif = key[i]; ;
-                                    }
+                                    } 
                                     break;
                                     /*touche down*/
                                     case 40:
-                                        if(lock != "x"){
+                                        if(verif != 38 && lock != "x"){
+                                        verif = ev;                 
                                         clearInterval(move);
                                         move = setInterval(regroup_bottom, speed);  
-                                        verif = key[i];                 
-                                    }
+                                    } 
                                     break;
 
                                     /*touche Z*/
                                     case 90:
-                                        if(lock != "x"){
+                                        if(verif != 83 && lock != "x"){
+                                        verif = ev; 
                                         clearInterval(move);
                                         move = setInterval(regroup_top, speed);
-                                        verif = key[i]; 
-                                    }
+                                    } 
                                     break;
                                     /*touche Up*/
                                     case 38:
-                                        if(lock != "x"){
+                                        if(verif != 40 && lock != "x"){
+                                        verif = ev; 
                                         clearInterval(move);
                                         move = setInterval(regroup_top, speed);
-                                        verif = key[i]; 
-                                    }
+                                    } 
                                     break;
 
                                     /*touche D*/
                                     case 68:
-                                        if(lock != "y"){
+                                        if(verif != 81 && lock != "y"){
+                                        verif = ev; 
                                         clearInterval(move);
                                         move = setInterval(regroup_right, speed);
-                                        verif = key[i]; 
-                                    }
+                                    } 
                                     break;
                                     /*touche Right*/
                                     case 39:
-                                        if(lock != "y"){
+                                        if(verif != 37 && lock != "y"){
                                         clearInterval(move);
                                         move = setInterval(regroup_right, speed);
-                                        verif = key[i]; 
-                                    }
+                                        verif = ev; 
+                                    } 
                                     break;
 
                                     /*touche Q*/
                                     case 81:
-                                        if(lock != "y"){
+                                        if(verif != 68 && lock != "y"){
                                         clearInterval(move);
                                         move = setInterval(regroup_left, speed);
-                                        verif = key[i]; 
-                                    }
+                                        verif = ev; 
+                                    } 
                                     break;
                                     /*touche Left*/
                                     case 37:
-                                        if(lock != "y"){
+                                        if(verif != 39 && lock != "y"){
                                         clearInterval(move);
                                         move = setInterval(regroup_left, speed);
-                                        verif = key[i]; 
-                                    }
+                                        verif = ev; 
+                                    } 
                                     break;                                 
                                 }
                                 }
                                 // key.splice(0, key.length); 
                             }
-                        }
+                        
                     }        
                 }
             });
